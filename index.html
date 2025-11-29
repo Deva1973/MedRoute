@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedRoute - AI-Powered Emergency Healthcare Routing</title>
+    <style>
+        :root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  /* Common style patterns */
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+
+  /* RGB versions for opacity control */
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+
+  /* Typography */
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04),
+    0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2')
+    format('woff2');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: var(--line-height-normal);
+  overflow-x: hidden;
+}
+
+/* Navigation */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 1000;
+  padding: var(--space-16) var(--space-24);
+}
+
+.nav-container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-24);
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: color var(--duration-fast);
+}
+
+.nav-links a:hover {
+  color: var(--color-primary);
+}
+
+.nav-controls {
+  display: flex;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.nav-control-btn {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  padding: var(--space-8) var(--space-12);
+  cursor: pointer;
+  font-size: var(--font-size-xl);
+  transition: all var(--duration-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-control-btn:hover {
+  background: var(--color-secondary);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.nav-control-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.viewing-time {
+  position: fixed;
+  top: 80px;
+  right: var(--space-24);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  padding: var(--space-8) var(--space-16);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  z-index: 999;
+}
+
+/* Fast Pitch Mode */
+.section.fast-pitch-hidden {
+  display: none;
+}
+
+/* Sections */
+.section {
+  min-height: 100vh;
+  padding: 80px var(--space-24) var(--space-32);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-16);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.hero .tagline {
+  font-size: var(--font-size-2xl);
+  color: var(--color-primary);
+  margin-bottom: var(--space-32);
+  font-weight: var(--font-weight-medium);
+}
+
+.hero .problem-statement {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  max-width: 700px;
+  margin: 0 auto var(--space-32);
+  line-height: 1.6;
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  padding: var(--space-16) var(--space-32);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+  transition: all var(--duration-normal);
+  border: none;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Problem Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-24);
+  margin-top: var(--space-32);
+}
+
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  text-align: center;
+  transition: transform var(--duration-normal);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-number {
+  font-size: 48px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-error);
+  margin-bottom: var(--space-12);
+}
+
+.stat-description {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+}
+
+/* Solution Flow */
+.solution-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-16);
+  margin-top: var(--space-32);
+  position: relative;
+}
+
+.flow-step {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  text-align: center;
+  position: relative;
+}
+
+.flow-icon {
+  font-size: 48px;
+  margin-bottom: var(--space-12);
+}
+
+.flow-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-8);
+}
+
+.flow-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Demo Section */
+.demo-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-32);
+  margin-top: var(--space-32);
+}
+
+.demo-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+}
+
+.demo-panel h3 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-16);
+}
+
+.demo-scenario {
+  margin-bottom: var(--space-16);
+}
+
+.demo-scenario label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-8);
+  color: var(--color-text-secondary);
+}
+
+.demo-scenario select {
+  width: 100%;
+  padding: var(--space-12);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  background: var(--color-background);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+}
+
+.demo-info {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-base);
+  padding: var(--space-16);
+  margin-top: var(--space-16);
+}
+
+.demo-info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-8) 0;
+  border-bottom: 1px solid var(--color-card-border-inner);
+}
+
+.demo-info-row:last-child {
+  border-bottom: none;
+}
+
+.demo-info-label {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+}
+
+.demo-info-value {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.ambulance-tracking {
+  background: var(--color-bg-8);
+  border-radius: var(--radius-base);
+  padding: var(--space-24);
+  margin-top: var(--space-16);
+  text-align: center;
+}
+
+.tracking-status {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin-bottom: var(--space-16);
+}
+
+.eta-display {
+  font-size: 48px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+  margin: var(--space-16) 0;
+}
+
+/* Custom Scenario Builder */
+.scenario-builder-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-32);
+  margin-top: var(--space-32);
+}
+
+.scenario-form-card,
+.scenario-results-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+}
+
+.scenario-form-card h3 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-24);
+}
+
+.age-slider-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.age-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: var(--radius-full);
+  outline: none;
+  background: var(--color-secondary);
+}
+
+.age-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+}
+
+.age-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: none;
+}
+
+.age-display {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  min-width: 80px;
+  text-align: right;
+}
+
+.checkbox-group,
+.radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+}
+
+.checkbox-label,
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.checkbox-label input,
+.radio-label input {
+  cursor: pointer;
+}
+
+.results-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+  text-align: center;
+  padding: var(--space-32);
+}
+
+.scenario-results-card h3 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-24);
+  text-align: center;
+}
+
+.severity-badge {
+  display: inline-block;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-16);
+}
+
+.severity-score {
+  font-size: 72px;
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  margin: var(--space-24) 0;
+}
+
+.result-item {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-card-border-inner);
+  border-radius: var(--radius-base);
+  padding: var(--space-16);
+  margin-bottom: var(--space-12);
+}
+
+.result-item-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.result-item-value {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+/* Features Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-24);
+  margin-top: var(--space-32);
+}
+
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  cursor: pointer;
+  transition: all var(--duration-normal);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+
+.feature-icon {
+  font-size: 48px;
+  margin-bottom: var(--space-16);
+}
+
+.feature-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-12);
+}
+
+.feature-description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-12);
+}
+
+.feature-details {
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  font-style: italic;
+}
+
+/* Market Chart */
+.market-chart {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  margin-top: var(--space-32);
+}
+
+.market-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-24);
+  margin-top: var(--space-24);
+}
+
+.market-stat {
+  text-align: center;
+}
+
+.market-stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+.market-stat-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+/* Competitive Table */
+.competitive-table {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  margin-top: var(--space-32);
+  overflow-x: auto;
+}
+
+.competitive-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.competitive-table th,
+.competitive-table td {
+  padding: var(--space-16);
+  text-align: left;
+  border-bottom: 1px solid var(--color-card-border-inner);
+}
+
+.competitive-table th {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.competitive-table td {
+  color: var(--color-text-secondary);
+}
+
+.competitive-table tr:hover {
+  background: var(--color-bg-1);
+}
+
+/* Traction Dashboard */
+.traction-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-24);
+  margin-top: var(--space-32);
+}
+
+.traction-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  text-align: center;
+}
+
+.traction-value {
+  font-size: 42px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+  margin-bottom: var(--space-8);
+}
+
+.traction-label {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+/* Revenue Model */
+.revenue-breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-24);
+  margin-top: var(--space-32);
+}
+
+.revenue-year {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+}
+
+.revenue-year h3 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-16);
+  color: var(--color-primary);
+}
+
+.revenue-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-12) 0;
+  border-bottom: 1px solid var(--color-card-border-inner);
+}
+
+.revenue-item:last-child {
+  border-bottom: none;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  padding-top: var(--space-16);
+}
+
+/* Funding Section */
+.funding-container {
+  background: var(--color-bg-1);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  margin-top: var(--space-32);
+  text-align: center;
+}
+
+.funding-amount {
+  font-size: 56px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--space-24);
+}
+
+.funding-uses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-16);
+  margin: var(--space-32) 0;
+}
+
+.funding-use {
+  text-align: center;
+}
+
+.funding-percentage {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+}
+
+.funding-use-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.highlights-list {
+  list-style: none;
+  margin-top: var(--space-24);
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.highlights-list li {
+  padding: var(--space-12);
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+}
+
+.highlights-list li:before {
+  content: "✓ ";
+  color: var(--color-success);
+  font-weight: var(--font-weight-bold);
+  margin-right: var(--space-8);
+}
+
+
+
+/* Section Headers */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-32);
+}
+
+.section-header h2 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-16);
+}
+
+.section-header p {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .nav-controls {
+    gap: var(--space-4);
+  }
+  
+  .nav-control-btn {
+    padding: var(--space-6) var(--space-10);
+    font-size: var(--font-size-lg);
+  }
+  
+  .hero h1 {
+    font-size: 32px;
+  }
+  
+  .demo-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .solution-flow {
+    grid-template-columns: 1fr;
+  }
+  
+  .scenario-builder-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .checkbox-group,
+  .radio-group {
+    grid-template-columns: 1fr;
+  }
+  
+  .viewing-time {
+    top: 70px;
+    right: var(--space-16);
+    font-size: var(--font-size-xs);
+    padding: var(--space-6) var(--space-12);
+  }
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-logo">MedRoute</div>
+            <ul class="nav-links">
+                <li><a href="#problem">Problem</a></li>
+                <li><a href="#solution">Solution</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#market">Market</a></li>
+                <li><a href="#traction">Traction</a></li>
+                <li><a href="#funding">Funding</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="nav-control-btn" id="soundToggle" onclick="toggleSound()" title="Toggle Sound">
+                    <span id="soundIcon">🔊</span>
+                </button>
+                <button class="nav-control-btn" id="fastPitchToggle" onclick="toggleFastPitch()" title="Toggle Fast Pitch Mode">
+                    <span id="fastPitchIcon">⚡</span>
+                </button>
+                <button class="nav-control-btn" id="downloadPDF" onclick="generatePDF()" title="Download Pitch Deck">
+                    <span>📥</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="section hero" id="hero">
+        <div class="section-container">
+            <h1>MedRoute - AI-Powered Emergency Healthcare Routing</h1>
+            <div class="tagline">Connecting Lives. Optimizing Care. Saving Time.</div>
+            <p class="problem-statement">
+                Every minute counts in emergency healthcare. Yet, inefficient routing, lack of hospital capacity visibility, 
+                and poor coordination cost thousands of lives annually. MedRoute changes that.
+            </p>
+            <button class="cta-button" onclick="scrollToSection('demo')">See Live Demo</button>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="section" id="problem">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>The Crisis We're Solving</h2>
+                <p>India's emergency healthcare system faces critical challenges that cost lives daily</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card animate-in">
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-description">1 in 10 Patients die during ambulance transit</div>
+                </div>
+                <div class="stat-card animate-in">
+                    <div class="stat-number" data-target="42">0</div>
+                    <div class="stat-description">Average response time (minutes)</div>
+                </div>
+                <div class="stat-card animate-in">
+                    <div class="stat-number" data-target="172000">0</div>
+                    <div class="stat-description">Annual road accident fatalities</div>
+                </div>
+                <div class="stat-card animate-in">
+                    <div class="stat-number" data-target="94">0</div>
+                    <div class="stat-description">% of hospitals lack pre-arrival notification</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="section" id="solution">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>How MedRoute Works</h2>
+                <p>End-to-end emergency healthcare coordination powered by AI</p>
+            </div>
+            <div class="solution-flow">
+                <div class="flow-step">
+                    <div class="flow-icon">📞</div>
+                    <div class="flow-title">Emergency Call</div>
+                    <div class="flow-description">Patient calls 102 or MedRoute app</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-icon">🤖</div>
+                    <div class="flow-title">AI Triage</div>
+                    <div class="flow-description">AI analyzes symptoms and condition</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-icon">🏥</div>
+                    <div class="flow-title">Hospital Match</div>
+                    <div class="flow-description">Finds best hospital and specialist</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-icon">🚑</div>
+                    <div class="flow-title">Ambulance Route</div>
+                    <div class="flow-description">Optimal route assigned to ambulance</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-icon">📊</div>
+                    <div class="flow-title">Pre-arrival Data</div>
+                    <div class="flow-description">Patient case file sent to hospital</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-icon">✅</div>
+                    <div class="flow-title">Hospital Ready</div>
+                    <div class="flow-description">Specialist and ED prepared</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Viewing Time Indicator -->
+    <div class="viewing-time" id="viewingTime">Full Tour (10 min)</div>
+
+    <!-- Demo Section -->
+    <section class="section" id="demo">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Live Demo</h2>
+                <p>See MedRoute in action with real-world emergency scenarios</p>
+            </div>
+            <div class="demo-container">
+                <div class="demo-panel">
+                    <h3>Emergency Intake</h3>
+                    <div class="demo-scenario">
+                        <label>Select Emergency Scenario:</label>
+                        <select id="scenarioSelect" onchange="updateDemo()">
+                            <option value="0">Acute MI Case</option>
+                            <option value="1">Stroke Case</option>
+                            <option value="2">Accident Trauma</option>
+                        </select>
+                    </div>
+                    <div class="demo-info" id="demoInfo"></div>
+                    <button class="cta-button" style="margin-top: 20px; width: 100%;" onclick="dispatchAmbulance()">Dispatch Ambulance</button>
+                </div>
+                <div class="demo-panel">
+                    <h3>Hospital Dashboard</h3>
+                    <div class="ambulance-tracking" id="trackingPanel">
+                        <div class="tracking-status">Waiting for dispatch...</div>
+                    </div>
+                    <div class="demo-info" style="margin-top: 20px;">
+                        <div class="demo-info-row">
+                            <span class="demo-info-label">ICU Beds Available:</span>
+                            <span class="demo-info-value">8/12</span>
+                        </div>
+                        <div class="demo-info-row">
+                            <span class="demo-info-label">Ventilators Available:</span>
+                            <span class="demo-info-value">3/5</span>
+                        </div>
+                        <div class="demo-info-row">
+                            <span class="demo-info-label">Emergency Staff on Duty:</span>
+                            <span class="demo-info-value">12</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Scenario Builder Section -->
+    <section class="section" id="custom-scenario">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Build Your Own Scenario</h2>
+                <p>Create custom emergency cases and see how MedRoute's AI handles them</p>
+            </div>
+            <div class="scenario-builder-container">
+                <div class="scenario-form-card">
+                    <h3>Emergency Details</h3>
+                    <div class="form-group">
+                        <label class="form-label">Patient Age</label>
+                        <div class="age-slider-container">
+                            <input type="range" id="patientAge" min="5" max="95" value="45" class="age-slider">
+                            <span class="age-display" id="ageDisplay">45 years</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Primary Symptom</label>
+                        <select id="primarySymptom" class="form-control">
+                            <option value="Chest Pain">Chest Pain</option>
+                            <option value="Breathing Difficulty">Breathing Difficulty</option>
+                            <option value="Head Injury">Head Injury</option>
+                            <option value="Loss of Consciousness">Loss of Consciousness</option>
+                            <option value="Severe Bleeding">Severe Bleeding</option>
+                            <option value="Abdominal Pain">Abdominal Pain</option>
+                            <option value="Burns">Burns</option>
+                            <option value="Poisoning">Poisoning</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Secondary Symptoms (Select all that apply)</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label"><input type="checkbox" value="Dizziness"> Dizziness</label>
+                            <label class="checkbox-label"><input type="checkbox" value="Nausea"> Nausea</label>
+                            <label class="checkbox-label"><input type="checkbox" value="Fever"> Fever</label>
+                            <label class="checkbox-label"><input type="checkbox" value="Weakness"> Weakness</label>
+                            <label class="checkbox-label"><input type="checkbox" value="Vision Problems"> Vision Problems</label>
+                            <label class="checkbox-label"><input type="checkbox" value="Speech Difficulty"> Speech Difficulty</label>
+                            <label class="checkbox-label"><input type="checkbox" value="Paralysis"> Paralysis</label>
+                            <label class="checkbox-label"><input type="checkbox" value="Confusion"> Confusion</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Severity Level</label>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="severity" value="Mild"> Mild</label>
+                            <label class="radio-label"><input type="radio" name="severity" value="Moderate"> Moderate</label>
+                            <label class="radio-label"><input type="radio" name="severity" value="Severe" checked> Severe</label>
+                            <label class="radio-label"><input type="radio" name="severity" value="Critical"> Critical</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <select id="location" class="form-control">
+                            <option value="Delhi">Delhi</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Kolkata">Kolkata</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Nellore">Nellore</option>
+                        </select>
+                    </div>
+                    <button class="cta-button" style="width: 100%; margin-top: 24px;" onclick="analyzeCustomScenario()">Analyze with AI</button>
+                </div>
+                <div class="scenario-results-card" id="scenarioResults">
+                    <div class="results-placeholder">
+                        <div style="font-size: 64px; margin-bottom: 16px;">🤖</div>
+                        <p style="color: var(--color-text-secondary);">Fill out the form and click "Analyze with AI" to see MedRoute's recommendation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Key Features</h2>
+                <p>Comprehensive emergency healthcare coordination platform</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👁️</div>
+                    <div class="feature-title">Real-time Capacity Visibility</div>
+                    <div class="feature-description">Live ICU/oxygen/ventilator availability, specialist calendars</div>
+                    <div class="feature-details">See which hospitals have beds, equipment, and specialists available in real-time</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-title">AI Triage Engine</div>
+                    <div class="feature-description">92% accuracy symptom analysis and risk stratification</div>
+                    <div class="feature-details">Machine learning trained on 50,000+ Indian emergency cases</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍⚕️</div>
+                    <div class="feature-title">Specialist Matching</div>
+                    <div class="feature-description">Real-time specialist availability and expertise mapping</div>
+                    <div class="feature-details">Routes patients to available specialists, not just nearest hospital</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <div class="feature-title">Smart Ambulance Routing</div>
+                    <div class="feature-description">Optimal route + ETA with real-time traffic integration</div>
+                    <div class="feature-details">Reduces response time by 40-50% vs traditional routing</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <div class="feature-title">Pre-arrival Data</div>
+                    <div class="feature-description">Automatic case file generation and hospital transmission</div>
+                    <div class="feature-details">Reduces ED processing time from 45min to 10min</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏛️</div>
+                    <div class="feature-title">Government EOC</div>
+                    <div class="feature-description">District-level emergency coordination and oversight</div>
+                    <div class="feature-details">Full integration with government emergency operations centers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Section -->
+    <section class="section" id="market">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Market Opportunity</h2>
+                <p>Massive and rapidly growing emergency medical services market</p>
+            </div>
+            <div class="market-chart">
+                <h3 style="text-align: center; margin-bottom: 24px;">India EMS Market Growth</h3>
+                <div class="market-stats">
+                    <div class="market-stat">
+                        <div class="market-stat-label">Current Market (2024)</div>
+                        <div class="market-stat-value">$2.5B</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="market-stat-label">Projected (2035)</div>
+                        <div class="market-stat-value">$6.5B</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="market-stat-label">CAGR</div>
+                        <div class="market-stat-value">9.07%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="market-chart" style="margin-top: 24px;">
+                <h3 style="text-align: center; margin-bottom: 24px;">Global EMS Market Growth</h3>
+                <div class="market-stats">
+                    <div class="market-stat">
+                        <div class="market-stat-label">Current Market (2024)</div>
+                        <div class="market-stat-value">$30.75B</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="market-stat-label">Projected (2034)</div>
+                        <div class="market-stat-value">$56.41B</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="market-stat-label">CAGR</div>
+                        <div class="market-stat-value">6.26%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitive Section -->
+    <section class="section" id="competitive" style="min-height: auto;">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Competitive Positioning</h2>
+                <p>The only platform combining AI triage, hospital capacity visibility, and pre-arrival coordination</p>
+            </div>
+            <div class="competitive-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Strength</th>
+                            <th>Weakness</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>EMRI (108)</strong></td>
+                            <td>Government scale</td>
+                            <td>Outdated tech, slow response</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1ambulance.com</strong></td>
+                            <td>Digital booking</td>
+                            <td>No hospital integration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hospital EMR</strong></td>
+                            <td>Comprehensive</td>
+                            <td>Not emergency-focused, expensive</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Telemedicine Apps</strong></td>
+                            <td>Large user base</td>
+                            <td>No emergency routing</td>
+                        </tr>
+                        <tr style="background: var(--color-bg-1);">
+                            <td><strong>MedRoute</strong></td>
+                            <td>AI + Hospital Network + Pre-arrival</td>
+                            <td>Early stage - building scale</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Traction Section -->
+    <section class="section" id="traction">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Traction &amp; Metrics</h2>
+                <p>Proven results with early adopters</p>
+            </div>
+            <div class="traction-grid">
+                <div class="traction-card">
+                    <div class="traction-value">5+</div>
+                    <div class="traction-label">Hospitals Onboarded</div>
+                </div>
+                <div class="traction-card">
+                    <div class="traction-value">500+</div>
+                    <div class="traction-label">Ambulances in Network</div>
+                </div>
+                <div class="traction-card">
+                    <div class="traction-value">42%</div>
+                    <div class="traction-label">Response Time Reduction</div>
+                </div>
+                <div class="traction-card">
+                    <div class="traction-value">65%</div>
+                    <div class="traction-label">ED Efficiency Gain</div>
+                </div>
+                <div class="traction-card">
+                    <div class="traction-value">8.2/10</div>
+                    <div class="traction-label">Patient Satisfaction</div>
+                </div>
+                <div class="traction-card">
+                    <div class="traction-value">78%</div>
+                    <div class="traction-label">Staff Adoption Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Revenue Section -->
+    <section class="section" id="revenue" style="min-height: auto;">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Revenue Model</h2>
+                <p>Multiple revenue streams with strong unit economics</p>
+            </div>
+            <div class="revenue-breakdown">
+                <div class="revenue-year">
+                    <h3>Year 1 - ₹75L</h3>
+                    <div class="revenue-item">
+                        <span>Hospital Licensing</span>
+                        <span>₹40L</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Government B2G</span>
+                        <span>₹10L</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Ambulance SaaS</span>
+                        <span>₹20L</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Analytics</span>
+                        <span>₹5L</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Total</span>
+                        <span>₹75L</span>
+                    </div>
+                </div>
+                <div class="revenue-year">
+                    <h3>Year 3 - ₹26Cr</h3>
+                    <div class="revenue-item">
+                        <span>Hospital Licensing</span>
+                        <span>₹6Cr</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Government B2G</span>
+                        <span>₹12Cr</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Ambulance SaaS</span>
+                        <span>₹6Cr</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Analytics</span>
+                        <span>₹90L</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Insurance</span>
+                        <span>₹1Cr</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Total</span>
+                        <span>₹26Cr</span>
+                    </div>
+                </div>
+                <div class="revenue-year">
+                    <h3>Year 5 - ₹103Cr</h3>
+                    <div class="revenue-item">
+                        <span>Hospital Licensing</span>
+                        <span>₹25Cr</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Government B2G</span>
+                        <span>₹45Cr</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Ambulance SaaS</span>
+                        <span>₹20Cr</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Analytics</span>
+                        <span>₹5Cr</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Insurance</span>
+                        <span>₹8Cr</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span>Total</span>
+                        <span>₹103Cr</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Funding Section -->
+    <section class="section" id="funding">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Investment Opportunity</h2>
+                <p>Seed round to scale operations and expand market presence</p>
+            </div>
+            <div class="funding-container">
+                <div class="funding-amount">₹5 Crores</div>
+                <p style="font-size: 18px; margin-bottom: 32px;">Seed Round</p>
+                <h3 style="margin-bottom: 24px;">Use of Funds</h3>
+                <div class="funding-uses">
+                    <div class="funding-use">
+                        <div class="funding-percentage">40%</div>
+                        <div class="funding-use-label">Product Development</div>
+                    </div>
+                    <div class="funding-use">
+                        <div class="funding-percentage">30%</div>
+                        <div class="funding-use-label">Go-to-Market</div>
+                    </div>
+                    <div class="funding-use">
+                        <div class="funding-use-label">Operations</div>
+                        <div class="funding-percentage">15%</div>
+                    </div>
+                    <div class="funding-use">
+                        <div class="funding-percentage">15%</div>
+                        <div class="funding-use-label">Contingency</div>
+                    </div>
+                </div>
+                <h3 style="margin: 32px 0 24px;">Investment Highlights</h3>
+                <ul class="highlights-list">
+                    <li>12-16x LTV/CAC ratio</li>
+                    <li>70-80% gross margins</li>
+                    <li>8-12 month payback period</li>
+                    <li>$3-4B TAM in India alone</li>
+                </ul>
+                <button class="cta-button" style="margin-top: 32px;" onclick="showContact()">Let's Talk</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        // Global state
+        let soundEnabled = true;
+        let fastPitchMode = false;
+        let customScenarioData = null;
+
+        // Audio context for sound effects
+        const audioContext = typeof AudioContext !== 'undefined' ? new AudioContext() : null;
+
+        // Simple beep sound generator
+        function playSound(frequency, duration, type = 'success') {
+            if (!soundEnabled || !audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        // Sound effects
+        function playSuccessSound() {
+            playSound(800, 0.1);
+            setTimeout(() => playSound(1000, 0.15), 100);
+        }
+
+        function playAlertSound() {
+            playSound(600, 0.2);
+        }
+
+        function playNotificationSound() {
+            playSound(500, 0.1);
+        }
+
+        // Toggle sound on/off
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const soundIcon = document.getElementById('soundIcon');
+            const soundToggle = document.getElementById('soundToggle');
+            
+            if (soundEnabled) {
+                soundIcon.textContent = '🔊';
+                soundToggle.classList.remove('active');
+                playNotificationSound();
+            } else {
+                soundIcon.textContent = '🔇';
+                soundToggle.classList.add('active');
+            }
+        }
+
+        // Toggle fast pitch mode
+        function toggleFastPitch() {
+            fastPitchMode = !fastPitchMode;
+            const fastPitchToggle = document.getElementById('fastPitchToggle');
+            const viewingTime = document.getElementById('viewingTime');
+            
+            // Sections to hide in fast pitch mode
+            const hiddenSections = ['competitive', 'revenue', 'features'];
+            
+            if (fastPitchMode) {
+                fastPitchToggle.classList.add('active');
+                viewingTime.textContent = 'Fast Pitch (5 min)';
+                hiddenSections.forEach(id => {
+                    const section = document.getElementById(id);
+                    if (section) section.classList.add('fast-pitch-hidden');
+                });
+                playNotificationSound();
+            } else {
+                fastPitchToggle.classList.remove('active');
+                viewingTime.textContent = 'Full Tour (10 min)';
+                hiddenSections.forEach(id => {
+                    const section = document.getElementById(id);
+                    if (section) section.classList.remove('fast-pitch-hidden');
+                });
+            }
+        }
+
+        // Generate PDF
+        function generatePDF() {
+            playNotificationSound();
+            
+            const today = new Date();
+            const dateStr = today.toISOString().split('T')[0];
+            
+            // Create PDF content
+            const pdfContent = `
+                <div style="font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto;">
+                    <div style="text-align: center; margin-bottom: 40px;">
+                        <h1 style="color: #21808D; font-size: 36px; margin-bottom: 10px;">MedRoute</h1>
+                        <p style="font-size: 18px; color: #626C71;">AI-Powered Emergency Healthcare Routing</p>
+                        <p style="font-size: 14px; color: #626C71; margin-top: 20px;">Pitch Deck - ${dateStr}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="color: #134252; font-size: 24px; margin-bottom: 15px;">The Problem</h2>
+                        <ul style="line-height: 1.8; color: #626C71;">
+                            <li>1 in 10 patients die during ambulance transit</li>
+                            <li>42 minute average response time</li>
+                            <li>172,000 annual road accident fatalities in India</li>
+                            <li>94% of hospitals lack pre-arrival notification systems</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="color: #134252; font-size: 24px; margin-bottom: 15px;">Our Solution</h2>
+                        <p style="line-height: 1.8; color: #626C71;">
+                            MedRoute is an end-to-end emergency healthcare coordination platform powered by AI. We connect emergency calls to the right hospital with the right specialist, optimize ambulance routing, and send pre-arrival patient data to emergency departments.
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="color: #134252; font-size: 24px; margin-bottom: 15px;">Market Opportunity</h2>
+                        <ul style="line-height: 1.8; color: #626C71;">
+                            <li>India EMS Market: $2.5B (2024) → $6.5B (2035)</li>
+                            <li>9.07% CAGR in Indian market</li>
+                            <li>Global EMS Market: $30.75B → $56.41B by 2034</li>
+                            <li>$3-4B TAM in India alone</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="color: #134252; font-size: 24px; margin-bottom: 15px;">Traction</h2>
+                        <ul style="line-height: 1.8; color: #626C71;">
+                            <li>5+ hospitals onboarded</li>
+                            <li>500+ ambulances in network</li>
+                            <li>42% response time reduction</li>
+                            <li>65% ED efficiency gain</li>
+                            <li>8.2/10 patient satisfaction</li>
+                            <li>150,000+ lives impacted</li>
+                        </ul>
+                    </div>
+                    
+                    ${customScenarioData ? `
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="color: #134252; font-size: 24px; margin-bottom: 15px;">Custom Scenario Analysis</h2>
+                        <p style="line-height: 1.8; color: #626C71;">
+                            <strong>Case:</strong> ${customScenarioData.age} year old patient with ${customScenarioData.primary}<br>
+                            <strong>AI Severity Score:</strong> ${customScenarioData.severity}/10<br>
+                            <strong>Recommended Hospital:</strong> ${customScenarioData.hospital}<br>
+                            <strong>Specialist:</strong> ${customScenarioData.specialist}<br>
+                            <strong>ETA:</strong> ${customScenarioData.eta} minutes
+                        </p>
+                    </div>
+                    ` : ''}
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="color: #134252; font-size: 24px; margin-bottom: 15px;">Funding Ask</h2>
+                        <p style="font-size: 32px; color: #21808D; font-weight: bold; margin-bottom: 15px;">₹5 Crores Seed Round</p>
+                        <p style="line-height: 1.8; color: #626C71; margin-bottom: 15px;"><strong>Use of Funds:</strong></p>
+                        <ul style="line-height: 1.8; color: #626C71;">
+                            <li>40% - Product Development</li>
+                            <li>30% - Go-to-Market</li>
+                            <li>15% - Operations</li>
+                            <li>15% - Contingency</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="color: #134252; font-size: 24px; margin-bottom: 15px;">Investment Highlights</h2>
+                        <ul style="line-height: 1.8; color: #626C71;">
+                            <li>12-16x LTV/CAC ratio</li>
+                            <li>70-80% gross margins</li>
+                            <li>8-12 month payback period</li>
+                            <li>₹103Cr ARR by Year 5</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 50px; padding-top: 30px; border-top: 2px solid #21808D; text-align: center;">
+                        <h2 style="color: #134252; font-size: 20px; margin-bottom: 10px;">Contact</h2>
+                        <p style="color: #626C71;">team@medroute.in</p>
+                        <p style="color: #626C71; margin-top: 10px;">Let's transform emergency healthcare together</p>
+                    </div>
+                </div>
+            `;
+            
+            const element = document.createElement('div');
+            element.innerHTML = pdfContent;
+            
+            const opt = {
+                margin: 10,
+                filename: `MedRoute_VC_Pitch_${dateStr}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                playSuccessSound();
+            });
+        }
+
+        // Custom scenario analysis
+        function analyzeCustomScenario() {
+            const age = document.getElementById('patientAge').value;
+            const primarySymptom = document.getElementById('primarySymptom').value;
+            const location = document.getElementById('location').value;
+            const severity = document.querySelector('input[name="severity"]:checked').value;
+            
+            // Get selected secondary symptoms
+            const secondarySymptoms = Array.from(document.querySelectorAll('.checkbox-group input:checked'))
+                .map(cb => cb.value);
+            
+            // AI analysis logic (simplified)
+            const severityScores = { 'Mild': 3, 'Moderate': 5, 'Severe': 7, 'Critical': 9 };
+            let aiScore = severityScores[severity];
+            
+            // Adjust based on age
+            if (age < 18 || age > 65) aiScore = Math.min(10, aiScore + 1);
+            
+            // Adjust based on secondary symptoms
+            aiScore = Math.min(10, aiScore + Math.floor(secondarySymptoms.length / 2));
+            
+            // Determine hospital and specialist based on primary symptom
+            const recommendations = {
+                'Chest Pain': { hospital: 'City Heart Center (STEMI Capable)', specialist: 'Cardiologist', type: 'Cardiac Center' },
+                'Breathing Difficulty': { hospital: 'Respiratory Care Hospital', specialist: 'Pulmonologist', type: 'General Hospital' },
+                'Head Injury': { hospital: 'Neuro Trauma Center', specialist: 'Neurosurgeon', type: 'Trauma Center' },
+                'Loss of Consciousness': { hospital: 'Emergency Medicine Center', specialist: 'Emergency Medicine Specialist', type: 'Trauma Center' },
+                'Severe Bleeding': { hospital: 'Level-1 Trauma Center', specialist: 'Trauma Surgeon', type: 'Trauma Center' },
+                'Abdominal Pain': { hospital: 'General Surgery Hospital', specialist: 'General Surgeon', type: 'General Hospital' },
+                'Burns': { hospital: 'Burns & Plastic Surgery Center', specialist: 'Plastic Surgeon', type: 'District Hospital' },
+                'Poisoning': { hospital: 'Toxicology Center', specialist: 'Emergency Medicine Specialist', type: 'General Hospital' }
+            };
+            
+            const rec = recommendations[primarySymptom] || recommendations['Chest Pain'];
+            
+            // Calculate ETA based on location and severity
+            const baseEta = { 'Delhi': 12, 'Mumbai': 15, 'Bangalore': 10, 'Chennai': 14, 'Hyderabad': 11, 'Kolkata': 16, 'Pune': 9, 'Nellore': 18 };
+            const eta = Math.max(5, baseEta[location] - Math.floor(aiScore / 2));
+            
+            // Store for PDF generation
+            customScenarioData = {
+                age: age,
+                primary: primarySymptom,
+                secondary: secondarySymptoms.join(', '),
+                severity: aiScore,
+                location: location,
+                hospital: rec.hospital,
+                specialist: rec.specialist,
+                hospitalType: rec.type,
+                eta: eta
+            };
+            
+            // Display results
+            const resultsCard = document.getElementById('scenarioResults');
+            
+            const severityColor = aiScore >= 8 ? '#C0152F' : aiScore >= 6 ? '#A84B2F' : aiScore >= 4 ? '#E68161' : '#21808D';
+            const severityLabel = aiScore >= 8 ? 'Critical' : aiScore >= 6 ? 'Severe' : aiScore >= 4 ? 'Moderate' : 'Mild';
+            
+            resultsCard.innerHTML = `
+                <h3>AI Analysis Results</h3>
+                <div style="text-align: center;">
+                    <div class="severity-badge" style="background-color: ${severityColor}; color: white;">${severityLabel}</div>
+                    <div class="severity-score" style="color: ${severityColor};">${aiScore}/10</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-item-label">Recommended Hospital Type</div>
+                    <div class="result-item-value">${rec.hospitalType}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-item-label">Best Match Hospital</div>
+                    <div class="result-item-value">${rec.hospital}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-item-label">Optimal Specialist</div>
+                    <div class="result-item-value">${rec.specialist}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-item-label">Estimated Response Time</div>
+                    <div class="result-item-value">${eta} minutes</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-item-label">Pre-arrival Data Package</div>
+                    <div class="result-item-value" style="font-size: var(--font-size-sm); line-height: 1.6;">
+                        ✓ Patient vitals transmitted<br>
+                        ✓ Symptom analysis sent<br>
+                        ✓ Specialist notified<br>
+                        ✓ ED room prepared
+                    </div>
+                </div>
+            `;
+            
+            // Play success sound and scroll to results
+            playSuccessSound();
+            resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Update age display
+        document.addEventListener('DOMContentLoaded', () => {
+            const ageSlider = document.getElementById('patientAge');
+            const ageDisplay = document.getElementById('ageDisplay');
+            
+            if (ageSlider) {
+                ageSlider.addEventListener('input', (e) => {
+                    ageDisplay.textContent = e.target.value + ' years';
+                });
+            }
+        });
+
+        // Demo data
+        const scenarios = [
+            {
+                name: "Acute MI Case",
+                symptoms: "Chest pain, breathlessness, dizziness",
+                severity: "Critical",
+                hospital: "City Heart Center (STEMI Capable)",
+                specialist: "Dr. Sharma - Cardiologist",
+                status: "Available - Currently in consult",
+                eta: "12",
+                ambulance: "MR-504"
+            },
+            {
+                name: "Stroke Case",
+                symptoms: "Facial drooping, arm weakness, speech difficulty",
+                severity: "Critical",
+                hospital: "AIIMS Trauma Center (Stroke Unit)",
+                specialist: "Dr. Patel - Neurologist",
+                status: "Available - Standby mode",
+                eta: "8",
+                ambulance: "MR-215"
+            },
+            {
+                name: "Accident Trauma",
+                symptoms: "Severe bleeding, multiple fractures, unconscious",
+                severity: "Critical",
+                hospital: "City Hospital Level-1 Trauma",
+                specialist: "Dr. Kumar - Trauma Surgeon",
+                status: "Available - In ER",
+                eta: "15",
+                ambulance: "MR-891"
+            }
+        ];
+
+        let currentScenario = 0;
+        let dispatched = false;
+
+        // Update demo based on selected scenario
+        function updateDemo() {
+            const select = document.getElementById('scenarioSelect');
+            currentScenario = parseInt(select.value);
+            const scenario = scenarios[currentScenario];
+            
+            const demoInfo = document.getElementById('demoInfo');
+            demoInfo.innerHTML = `
+                <div class="demo-info-row">
+                    <span class="demo-info-label">Symptoms:</span>
+                    <span class="demo-info-value">${scenario.symptoms}</span>
+                </div>
+                <div class="demo-info-row">
+                    <span class="demo-info-label">Severity:</span>
+                    <span class="demo-info-value" style="color: var(--color-error); font-weight: bold;">${scenario.severity}</span>
+                </div>
+                <div class="demo-info-row">
+                    <span class="demo-info-label">Recommended Hospital:</span>
+                    <span class="demo-info-value">${scenario.hospital}</span>
+                </div>
+                <div class="demo-info-row">
+                    <span class="demo-info-label">Specialist:</span>
+                    <span class="demo-info-value">${scenario.specialist}</span>
+                </div>
+                <div class="demo-info-row">
+                    <span class="demo-info-label">Status:</span>
+                    <span class="demo-info-value" style="color: var(--color-success);">${scenario.status}</span>
+                </div>
+            `;
+            
+            dispatched = false;
+            document.getElementById('trackingPanel').innerHTML = '<div class="tracking-status">Waiting for dispatch...</div>';
+        }
+
+        // Dispatch ambulance animation
+        function dispatchAmbulance() {
+            playAlertSound();
+            if (dispatched) return;
+            
+            dispatched = true;
+            const scenario = scenarios[currentScenario];
+            const trackingPanel = document.getElementById('trackingPanel');
+            
+            trackingPanel.innerHTML = `
+                <div class="tracking-status">Ambulance ${scenario.ambulance} Dispatched</div>
+                <div class="eta-display">${scenario.eta} min</div>
+                <div style="font-size: 14px; color: var(--color-text-secondary);">En route to ${scenario.hospital}</div>
+                <div style="margin-top: 20px; font-size: 18px; color: var(--color-primary);">✓ Specialist ${scenario.specialist} notified</div>
+                <div style="margin-top: 8px; font-size: 18px; color: var(--color-primary);">✓ ED room prepared</div>
+                <div style="margin-top: 8px; font-size: 18px; color: var(--color-primary);">✓ Patient case file sent</div>
+            `;
+            
+            // Animate ETA countdown
+            let eta = parseInt(scenario.eta);
+            const etaDisplay = trackingPanel.querySelector('.eta-display');
+            
+            const countdown = setInterval(() => {
+                eta--;
+                if (eta <= 0) {
+                    clearInterval(countdown);
+                    etaDisplay.textContent = 'Arrived!';
+                    etaDisplay.style.color = 'var(--color-success)';
+                    playSuccessSound();
+                } else {
+                    etaDisplay.textContent = eta + ' min';
+                }
+            }, 2000);
+        }
+
+        // Smooth scroll
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Contact alert
+        function showContact() {
+            alert('Contact: team@medroute.in\n\nLet\'s discuss how MedRoute can transform emergency healthcare together!');
+        }
+
+        // Animate stats on scroll
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.dataset.target);
+                        const duration = 2000;
+                        const step = target / (duration / 16);
+                        let current = 0;
+                        
+                        const counter = setInterval(() => {
+                            current += step;
+                            if (current >= target) {
+                                entry.target.textContent = target;
+                                clearInterval(counter);
+                            } else {
+                                entry.target.textContent = Math.floor(current);
+                            }
+                        }, 16);
+                        
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            stats.forEach(stat => observer.observe(stat));
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDemo();
+            animateStats();
+            
+            // Smooth scroll for nav links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    scrollToSection(targetId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
